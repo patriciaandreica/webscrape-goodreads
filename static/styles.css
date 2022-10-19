@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Cormorant:wght@300&display=swap');
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cormorant', serif;
+    text-align: center;
+    background-color: antiquewhite;
+}
+.wrapper {
+    width: 100%;
+}
+
+.wrapper h1 {
+    background-color: #e2c4a3;
+    padding: 20px;
+    margin: 0;
+}
+
+.wrapper p {
+    padding-top: 10px;
+}
+
+.container {
+    width: 100%;
+    min-height: 10vh;
+    padding: 1%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 100vh;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 15px 20px;
+
+}
+
+.book-container{
+    border-bottom: #e2c4a3 solid;
+
+}
+
