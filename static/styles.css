@@ -17,8 +17,9 @@ body {
     margin: 0;
 }
 
+
 .wrapper p {
-    padding-top: 10px;
+    padding-top: 12px; /* I changed it from 10 to 12 */
 }
 
 .container {
