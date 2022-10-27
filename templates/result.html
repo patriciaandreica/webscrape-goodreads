@@ -1,28 +1,39 @@
-<!--Not being used currently-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/styles.css" >
     <title>Document</title>
 </head>
 <body>
-    <form action="http://localhost:5000/index1.html" method="POST">
-        <div id=container>
-            Book Giveaway
-        </div>
-    </form>
-<!-- Display results  -->
-<ol>
-{% for errors in error %}
-        <h4>{{ errors }}</h4>
-      {% endfor %}
-{% for i in words %}
-    <br> {{ i }} </br>
-    {book}
-{% endfor %}
-</ol>
+    {% block content %}
+        <form action="/index" method="POST">
+            <div class="wrapper">
+                <h1>Goodreads Book Giveaway</h1>
+                <h2>Enter your preferred genre to find current giveaways</h2>
+                <div class="container">
+                    <input type="text" class="search-bar" placeholder="Please enter genre" name="genre">
+                </div>
+            </div>
+        </form>  {% endblock %}
+    <div class="results">
+        {% for errors in error %}
+            <h4>{{ errors }}</h4>
+        {% endfor %}
+        <!--  Book covers  -->
+      <h1><u>Search results for {{genre}}</u>:</h1>
+        {% for i in words %}
+            {% set outer_loop = loop.index %}
+             <div class="book-container"><h3>{{ i }}</h3>
+            {% for j in books %}
+                {% set inner_loop = loop.index %}
+                {% if inner_loop == outer_loop %}
+                    <img class="bookCover" src= {{ j }}></div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
 </body>
 </html>
