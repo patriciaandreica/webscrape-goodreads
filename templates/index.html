@@ -18,21 +18,5 @@
                 </div>
             </div>
         </form>  {% endblock %}
-    <div class="results">
-        {% for errors in error %}
-            <h4>{{ errors }}</h4>
-        {% endfor %}
-        <!--  Book covers  -->
-        {% for i in words %}
-            {% set outer_loop = loop.index %}
-             <div class="book-container"><h3>{{ i }}</h3>
-            {% for j in books %}
-                {% set inner_loop = loop.index %}
-                {% if inner_loop == outer_loop %}
-                    <img class="bookCover" src= {{ j }}></div>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </div>
 </body>
 </html>
