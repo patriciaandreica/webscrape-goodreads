@@ -8,15 +8,19 @@
     <title>Document</title>
 </head>
 <body>
-    {% block content %}
-        <form action="/index" method="POST">
-            <div class="wrapper">
-                <h1>Goodreads Book Giveaway</h1>
-                <h2>Enter your preferred genre to find current giveaways</h2>
-                <div class="container">
-                    <input type="text" class="search-bar" placeholder="Please enter genre" name="genre">
-                </div>
-            </div>
-        </form>  {% endblock %}
+{% block content %}
+    <div class="bg">
+        <div class="title">
+            <h1>Goodreads Webscraper</h1>
+        </div>
+        <div class="wrapper">
+            <h2>Enter the book title</h2>
+            <form action="/index" method="POST">
+                <input type="text" class="search-bar" placeholder="Please enter book title" name="book-name">
+        </form>
+    </div>
+    </div>
+{% endblock %}
 </body>
 </html>
+
