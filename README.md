@@ -13,3 +13,4 @@ TO DO:
 3. once the user checks out, we can send an email linking 
 4. Add sorting (eg, sort books by author, genre, ratings) 
 5. Adding database using SQL and JSON
+6. Add error checking (eg user enters non-existing book title)
