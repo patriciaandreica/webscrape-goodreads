@@ -5,21 +5,44 @@ body {
     box-sizing: border-box;
     font-family: 'Cormorant', serif;
     text-align: center;
-    background-color: antiquewhite;
+}
+
+.bg {
+    display:grid;
+    place-content: center;
+    text-align: center;
+    min-height: 500px;
+    position: relative;
+    isolation: isolate;
+}
+.bg::after{
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    opacity: .25;
+    background-image: url("goodreadz.jpg");
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100%;
 }
 .wrapper {
     width: 100%;
 }
 
+.title {
+    font-size: 25px;
+}
+
 .wrapper h1 {
-    background-color: #e2c4a3; /*#e2c4a3*/
     padding: 20px;
     margin: 0;
 }
 
-
 .wrapper p {
-    padding-top: 12px; /* I changed it from 10 to 12 */
+    padding-top: 10px;
 }
 
 .container {
@@ -29,22 +52,56 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
+    background-color: #ffffffa6;
 
+}
+
+.prices a:link {
+  color: black;
+
+}
+
+.prices a:hover{
+    color: #00000082;
+}
+
+.prices a{
+    font-size: 3vh;
+}
+
+
+.container h2 {
+    padding: 20px;
+}
+
+.container img {
+    height: 75%;
 }
 
 .search-bar {
     width: 100%;
     max-width: 100vh;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.7);
     display: flex;
     align-items: center;
     border-radius: 60px;
     padding: 15px 20px;
 
 }
+.search-bar .placeholder {
+    color: whitesmoke;
+}
 
 .book-container{
-    border-bottom: #e2c4a3 solid;
+    padding: 10px
+
+}
+.book-container:nth-child(-n+3){
+    border-bottom: #00000042 solid;
+}
+
+.results{
+    margin:10vh;
 
 }
 
