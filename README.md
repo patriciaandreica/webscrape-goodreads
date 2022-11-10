@@ -1,6 +1,6 @@
 # webscrape-goodreads
 # Overview
-A flask web application that webscrapes [Goodreads](https://www.goodreads.com/) to find tags that contains information such as author, current giveaways for related genre, and ratings. The user enters the title of the book they want to search for, and the corresponding results are displayed. 
+A flask web application that webscrapes [Goodreads](https://www.goodreads.com/) to find tags that contains information such as author, current giveaways for related genre, and ratings. The user enters the title of the book they want to search for, and the corresponding results are displayed. This software is being created using python, CSS, HTML, json, and SQL. 
 
 <img width="400" alt="Screen Shot 2022-11-08 at 6 12 04 PM" src="https://user-images.githubusercontent.com/68759170/200696094-39c96f33-d714-4cf8-ad09-cdb3258e3880.png">
 
