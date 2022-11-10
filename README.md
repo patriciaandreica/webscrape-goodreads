@@ -11,7 +11,7 @@ Allows user to search through Goodreads for book recommendations based off the b
 
 # MVP Requirements:
 
-1.	Create a backend with enough tables to hold shopping cart information for user – json, SQLite
+1.	Create a backend with enough tables to hold shopping cart information for user – json-flat file, SQLite- flat files tables
 2.	Have main page where user can search for book recommendations. Recommendations gathered from Goodreads. 
 3.	Have “add to cart” button that will push information to backend and hold for shopping cart 
 4.	Have “Download Shopping Cart” button for user to download xml of shopping cart information
