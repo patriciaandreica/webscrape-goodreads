@@ -9,7 +9,7 @@ A flask web application that webscrapes [Goodreads](https://www.goodreads.com/) 
 # Purpose:
 Allows user to search through Goodreads for book recommendations based off the book of their choosing. User will be able to add the books to their cart, where they can choose to export, as am xml file. This will provide the user with the list of books they want, along with the link to purchase the book at Barnes and Noble. 
 
-# Goals (MVP):
+# MVP Requirements:
 
 1.	Create a backend with enough tables to hold shopping cart information for user – json, SQL
 2.	Have main page where user can search for book recommendations. Recommendations gathered from Goodreads. 
