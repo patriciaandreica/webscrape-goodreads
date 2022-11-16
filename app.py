@@ -1,8 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request
+import sqlite3
 
 app = Flask(__name__)
+app.secret_key = "secret key"
+#need secret key for sessions
+
+#connects to db
+#sets the row_factory attribute to sqlite3.Row so you can have name-based access to columns.
+#conn is the connection object you use to access the db
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # Dictionary of Headers to send with the Request.
 headers = {
@@ -30,7 +41,7 @@ def book_page(searchterms):
     :return: url of book page
     """
     searchterms = "+".join(searchterms.split())
-    url = f'https://www.goodreads.com/search?q={searchterms}'
+    url =  f'https://www.goodreads.com/search?q={searchterms}'
     r = requests.get(url, headers={"Content-Type": "text"})
     soup = BeautifulSoup(r.content, 'html.parser')
     link = soup.find('a', class_='bookTitle').get('href')
