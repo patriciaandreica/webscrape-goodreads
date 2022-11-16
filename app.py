@@ -6,6 +6,7 @@ import sqlite3
 app = Flask(__name__)
 app.secret_key = "secret key"
 #need secret key for sessions
+#another comment
 
 #connects to db
 #sets the row_factory attribute to sqlite3.Row so you can have name-based access to columns.
