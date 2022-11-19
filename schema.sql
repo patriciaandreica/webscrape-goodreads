@@ -1,0 +1,25 @@
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS user_info;
+DROP TABLE IF EXISTS to_be_read;
+
+CREATE TABLE books (
+    book_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    author TEXT NOT NULL,
+    genre TEXT NOT NULL,
+    rating INTEGER NOT NULL
+)
+
+CREATE TABLE user_info (
+    u_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL
+)
+
+CREATE TABLE to_be_read (
+    tbr_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    book_id INTEGER,
+    u_id INTEGER,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    FOREIGN KEY (book_id) REFERENCES books(book_id),
+    FOREIGN KEY (u_id) REFERENCES user_info(u_id),
+)
