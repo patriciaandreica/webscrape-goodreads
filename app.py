@@ -1,17 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
+import datetime
+import time
 
 app = Flask(__name__)
-app.secret_key = "secret key"
-#need secret key for sessions
-#an
-#comment
 
-#connects to db
-#sets the row_factory attribute to sqlite3.Row so you can have name-based access to columns.
-#conn is the connection object you use to access the db
+#for db
+app.secret_key = "secret key"
+
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
@@ -34,7 +32,7 @@ ratings = ""
 books = ""
 giveaway_titles = ""
 book_input = ""
-
+genre = ""
 
 def book_page(searchterms):
     """
@@ -47,9 +45,9 @@ def book_page(searchterms):
     r = requests.get(url, headers={"Content-Type": "text"})
     soup = BeautifulSoup(r.content, 'html.parser')
     link = soup.find('a', class_='bookTitle').get('href')
+    print(link)
     url = f'https://www.goodreads.com/{link}'
     return url
-
 
 # Get author
 def goodreads_author(soup):
@@ -59,8 +57,9 @@ def goodreads_author(soup):
     :return: author name as text
     """
     author = soup.find('span', class_='ContributorLink__name').get_text()
-    return author
 
+    print(author)
+    return author
 
 # Get book cover
 def goodreads_book_image(soup):
@@ -72,7 +71,6 @@ def goodreads_book_image(soup):
     book_image = soup.find('img', class_="ResponsiveImage")
     return book_image['src']
 
-
 def goodreads_ratings(soup):
     """
     Scrape average numeric rating of book
@@ -81,7 +79,6 @@ def goodreads_ratings(soup):
     """
     book_rating = soup.find('div', class_="RatingStatistics__rating").get_text()
     return book_rating
-
 
 def goodreads_giveaway(soup) -> list:
     """
@@ -100,7 +97,6 @@ def goodreads_giveaway(soup) -> list:
         books_give.append(element.attrs['src'])
     return books_give
 
-
 def goodreads_giveaway_title(soup) -> list:
     """
     Load page based on book genre of entered book, and scrape
@@ -118,11 +114,14 @@ def goodreads_giveaway_title(soup) -> list:
         titles_give.append(i.text)
     return titles_give
 
+def get_genre(soup):
+    time.sleep(2)
+    genres = soup.find('a', class_="actionLinkLite bookPageGenreLink").get_text()
+    return genres
 
 @app.route('/')
 def home():
-    return render_template("index.html")
-
+    return render_template('index.html')
 
 @app.route('/index', methods=["POST"])
 def index2():
@@ -132,23 +131,58 @@ def index2():
     global books
     global giveaway_titles
     global book_input
+    global genre
     if request.method == 'POST':
         try:
             book_input = request.form["book-name"]
             url = book_page(book_input)
             r = requests.get(url)
             soup = BeautifulSoup(r.content, 'html.parser')
+
             authors = goodreads_author(soup)
+            print(authors)
             image = goodreads_book_image(soup)
+            print(image)
             ratings = goodreads_ratings(soup)
+            print(ratings)
             books = goodreads_giveaway(soup)
+            print(books)
             giveaway_titles = goodreads_giveaway_title(soup)
+            print(giveaway_titles)
+            genre = get_genre(soup)
+            print(genre)
             book_input = book_input.capitalize()
         except:
-            error.append("Genre not found")
+            error.append("Book not Found")
+        if authors and image and book_input and genre:
+            conn = get_db_connection()
+            if book_input not in (conn.execute("Select Title from Book")):
+                conn.execute('INSERT INTO book (Title, Author, Genre, Cover) VALUES (?, ?, ?, ?)',
+                             (book_input, authors, genre, image))
+                conn.commit()
+                conn.close()
+            else:
+                print("In Book DB")
+            return render_template("result.html", book_input=book_input, authors=authors, image=image, ratings=ratings,
+                                   books=books, words=giveaway_titles)
+        else:
+            print(authors, book_input, genre)
+            print("NOT FULLY LOADED")
     return render_template("result.html", book_input=book_input, authors=authors, image=image, ratings=ratings,
                            books=books, words=giveaway_titles)
 
 
+#TBR
+@app.route('/shelf', methods=('GET', 'POST'))
+def shelf():
+    conn = get_db_connection()
+    users = conn.execute('Select * FROM user').fetchall()
+    TBRs= conn.execute('Select * FROM TBR').fetchall()
+    Books = conn.execute('Select * FROM book').fetchall()
+    conn.close()
+    #users = users, TBRs = TBRs,
+    return render_template('shelf.html', Books=Books)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
