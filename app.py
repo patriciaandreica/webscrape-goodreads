@@ -22,6 +22,8 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
 
+
+
 # Lists to pass to html
 error = []
 books_give = []
@@ -146,6 +148,7 @@ def index2():
             book_input = book_input.capitalize()
         except:
             error.append("Genre not found")
+            return render_template("error.html", book_input = book_input)
     return render_template("result.html", book_input=book_input, authors=authors, image=image, ratings=ratings,
                            books=books, words=giveaway_titles)
 

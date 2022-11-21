@@ -12,39 +12,122 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles.css">
+
     <title>Document</title>
 </head>
 <body>
+
 {% block content %}
+    <!-- Nav -->
+    <header>
+        <div class="nav">
+            <ul class="navbar">
+                <!-- <li>Go back</li> -->
+                <button><a href="index.html" onclick="window.history.go(-1); return false;"> Search for more </a>
+                </button>
+                <li>
+                    <button onclick="togglePopup()">See TBR<img src="../static/cart.png" width="30px" height="30px">
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!-- Pop up Cart -->
+    <div class="popup" id="popup-1">
+        <div class="overlay"></div>
+        <div class="content">
+            <div class="close-btn" onclick="togglePopup()">&times;</div>
+            <h1>Your TBR List</h1>
+            <div class="list-books">
+                <ul id="added-book">
+                </ul>
+            </div>
+            <button onclick="download_csv_file()"> Download CSV</button>
+
+        </div>
+    </div>
+
     <div class="bg">
         <div class="title">
             <h1>Goodreads Webscraper</h1>
         </div>
         <div class="container">
             <img src= {{ image }}>
+            <h2 id="book-title">{{ book_input }}</h2>
             <h2 class="info-text">{{ book_input }} by {{ authors }} <br>Average rating: {{ ratings }}<br></h2>
-         </div>
-    <div class="prices">
-            <p><a href="prices.html">Find the best price</a></p>
+        </div>
+
+        <button id="button-click" onclick="addItem()"><span>Add to TBR</span></button>
+
+        <script>
+
+            let cart = [];
+            let data = [];
+
+            function addItem() {
+                const bookName = document.getElementById("book-title");
+               // localStorage.setItem("book", bookName.innerHTML);
+                cart.push(bookName.innerHTML);
+                data.push(bookName.innerHTML);
+                const li = document.createElement("li");
+                const text = document.createTextNode(bookName.innerHTML);
+                li.appendChild(text);
+                document.getElementById("added-book").appendChild(li);
+
+                   // li.appendChild(document.createTextNode(bookName.innerHTML));
+               // document.getElementById("added-book").appendChild(li)
+               // var ul = document.getElementById("added-book");
+               // var li = document.createElement("li");
+               // li.appendChild(document.createTextNode());
+              //  ul.appendChild(li);
+
+                document.getElementById("button-click").onclick = null; // disable button after one click
+               // document.getElementById("added-book").innerHTML = localStorage.getItem("book");
+
+            }
+
+            function togglePopup() {
+                document.getElementById("popup-1").classList.toggle("active");
+            }
+
+            function download_csv_file() {
+                var csvFileData = cart
+                var csv = 'To Be Read:\n';
+                csvFileData.forEach(function (row) {
+                    csv += row;
+                    csv += "\n";
+                });
+                var hiddenElement = document.createElement('a');
+                hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'to_be_read.csv';
+                hiddenElement.click();
+            }
+
+            //document.getElementById("added-book").innerHTML = localStorage.getItem("book");
+
+        </script>
+
+
+
+        <div class="results">
+            {% for errors in error %}
+                <h4>{{ errors }}</h4>
+            {% endfor %}
+            <!--  Book covers  -->
+            <h1>Current giveaways for similar book genre:</h1>
+            {% for i in words %}
+                {% set outer_loop = loop.index %}
+                <div class="book-container"><h3>{{ i }}</h3>
+                    {% for j in books %}
+                        {% set inner_loop = loop.index %}
+                        {% if inner_loop == outer_loop %}
+                            <img class="bookCover" src= {{ j }}></div>
+                        {% endif %}
+                    {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-    <div class="results">
-        {% for errors in error %}
-            <h4>{{ errors }}</h4>
-        {% endfor %}
-        <!--  Book covers  -->
-        <h1>Current giveaways for similar book genre:</h1>
-        {% for i in words %}
-            {% set outer_loop = loop.index %}
-            <div class="book-container"><h3>{{ i }}</h3>
-                {% for j in books %}
-                    {% set inner_loop = loop.index %}
-                    {% if inner_loop == outer_loop %}
-                        <img class="bookCover" src= {{ j }}></div>
-                    {% endif %}
-                {% endfor %}
-        {% endfor %}
-    </div>
-   </div>
-</body>
-</html>
+    </body>
+    </html>
 {% endblock %}
