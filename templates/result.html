@@ -12,25 +12,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles.css">
-
-    <title>Document</title>
+    <title>{{ book_input }}</title>
 </head>
 <body>
-
 {% block content %}
     <!-- Nav -->
     <header>
-        <div class="nav">
-            <ul class="navbar">
-                <!-- <li>Go back</li> -->
-                <button><a href="index.html" onclick="window.history.go(-1); return false;"> Search for more </a>
-                </button>
+        <nav>
+            <ul>
                 <li>
-                    <button onclick="togglePopup()">See TBR<img src="../static/cart.png" width="30px" height="30px">
-                    </button>
+                <a href="index.html" onclick="window.history.go(-1); return false;"> Search for more </a>
+                </li>
+                <li>
+                    <a onclick="togglePopup()">See TBR<img src="../static/cart.png" width="30px" height="30px">
+                    </a>
                 </li>
             </ul>
-        </div>
+        </nav>
     </header>
     <!-- Pop up Cart -->
     <div class="popup" id="popup-1">
@@ -43,55 +41,53 @@
                 </ul>
             </div>
             <button onclick="download_csv_file()"> Download CSV</button>
-
         </div>
     </div>
-
     <div class="bg">
         <div class="title">
-            <h1>Goodreads Webscraper</h1>
+            <h2>Results:</h2>
         </div>
         <div class="container">
             <img src= {{ image }}>
-            <h2 id="book-title">{{ book_input }}</h2>
-            <h2 class="info-text">{{ book_input }} by {{ authors }} <br>Average rating: {{ ratings }}<br></h2>
+            <h1 id="book-title">{{ book_input }}</h1>
+            <h2 class="info-text">by {{ authors }} <br>Average rating: {{ ratings }}<br></h2>
+            <p>{{ description }}</p>
         </div>
-
         <button id="button-click" onclick="addItem()"><span>Add to TBR</span></button>
+
 
         <script>
 
-            let cart = [];
             let data = [];
 
             function addItem() {
                 const bookName = document.getElementById("book-title");
-               // localStorage.setItem("book", bookName.innerHTML);
-                cart.push(bookName.innerHTML);
+                // localStorage.setItem("book", bookName.innerHTML);
                 data.push(bookName.innerHTML);
                 const li = document.createElement("li");
                 const text = document.createTextNode(bookName.innerHTML);
                 li.appendChild(text);
                 document.getElementById("added-book").appendChild(li);
-
-                   // li.appendChild(document.createTextNode(bookName.innerHTML));
-               // document.getElementById("added-book").appendChild(li)
-               // var ul = document.getElementById("added-book");
-               // var li = document.createElement("li");
-               // li.appendChild(document.createTextNode());
-              //  ul.appendChild(li);
-
                 document.getElementById("button-click").onclick = null; // disable button after one click
-               // document.getElementById("added-book").innerHTML = localStorage.getItem("book");
-
+                // document.getElementById("added-book").innerHTML = localStorage.getItem("book");
             }
+
+            /*
+
+                document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+              } else {
+                document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+              }
+            }
+
+            */
 
             function togglePopup() {
                 document.getElementById("popup-1").classList.toggle("active");
             }
 
             function download_csv_file() {
-                var csvFileData = cart
+                var csvFileData = data
                 var csv = 'To Be Read:\n';
                 csvFileData.forEach(function (row) {
                     csv += row;
@@ -107,9 +103,6 @@
             //document.getElementById("added-book").innerHTML = localStorage.getItem("book");
 
         </script>
-
-
-
         <div class="results">
             {% for errors in error %}
                 <h4>{{ errors }}</h4>

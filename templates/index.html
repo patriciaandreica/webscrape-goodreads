@@ -5,18 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles.css" >
-    <title>Document</title>
+    <title>Books</title>
 </head>
 <body>
 {% block content %}
+     <div class="container-index">
+    <nav>
+      <ul>
+        <li>About us</li>
+        <li>Blog</li>
+      </ul>
+    </nav>
+  </div>
     <div class="bg">
-        <div class="title">
-            <h1>Goodreads Webscraper</h1>
+        <div class="title-main">
+            <h1>Find Books you Love</h1>
+            <div id="heart"></div>
         </div>
         <div class="wrapper">
             <h2>Enter the book title</h2>
-            <form action="/index" method="POST">
-                <input type="text" class="search-bar" placeholder="Please enter book title" name="book-name">
+            <form class="searchbox" action="/index" method="POST">
+                <input type="search" placeholder="Please enter book title" name="book-name">
+                <button type="submit" value="search">&nbsp;</button>
         </form>
     </div>
     </div>

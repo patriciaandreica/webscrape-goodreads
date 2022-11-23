@@ -36,6 +36,7 @@ ratings = ""
 books = ""
 giveaway_titles = ""
 book_input = ""
+book_description = ""
 
 
 def book_page(searchterms):
@@ -62,6 +63,15 @@ def goodreads_author(soup):
     """
     author = soup.find('span', class_='ContributorLink__name').get_text()
     return author
+
+def goodreads_description(soup):
+    """
+    Scrape info about book
+    :param soup:
+    :return:
+    """
+    description = soup.find('div', class_="DetailsLayoutRightParagraph__widthConstrained").get_text()
+    return description
 
 
 # Get book cover
@@ -134,6 +144,7 @@ def index2():
     global books
     global giveaway_titles
     global book_input
+    global book_description
     if request.method == 'POST':
         try:
             book_input = request.form["book-name"]
@@ -146,11 +157,12 @@ def index2():
             books = goodreads_giveaway(soup)
             giveaway_titles = goodreads_giveaway_title(soup)
             book_input = book_input.capitalize()
+            book_description = goodreads_description(soup)
         except:
             error.append("Genre not found")
             return render_template("error.html", book_input = book_input)
     return render_template("result.html", book_input=book_input, authors=authors, image=image, ratings=ratings,
-                           books=books, words=giveaway_titles)
+                           books=books, words=giveaway_titles, description = book_description)
 
 
 if __name__ == '__main__':
